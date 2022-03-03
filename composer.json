@@ -1,0 +1,19 @@
+{
+    "name": "alvaro/php_pdf",
+    "description": "pratica pdf com php",
+    "type": "project",
+    "authors": [
+        {
+            "name": "alvaro220592",
+            "email": "alvaro220592@gmail.com"
+        }
+    ],
+    "require": {
+        "dompdf/dompdf": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}

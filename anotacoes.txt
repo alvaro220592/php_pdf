@@ -1,0 +1,39 @@
+composer init
+implantação do autoload no composer.json
+composer update
+criação do index.php
+em index.php - faz o require do vendor/autoload.php
+composer require dompdf/dompdf
+em index.php - add a dependência do dompdf: use Dompdf/Dompdf;
+
+instancia o Dompdf
+
+exemplo básico(já mostra o pdf no navegador podendo imprimir):
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml("<h4>Teste</h4>");
+    $dompdf->render();
+    header('Content-type:application/pdf');
+    echo $dompdf->output();
+
+O ideal é renderizar uma página à parte, como 'arquivo.html' e no caso não seria mais ->loadHtml(), mas sim ->loadHtmlFile('nomeArquivo'). É necessário definir configurações do Dompdf, pois somente com isso, dará erro de permissão, pois o Dompdf acha que a pasta raíz é em vendor. Para isso, se importa o Options e se define a pasta raíz. Exemplo:
+    use Dompdf\Options
+    $options = new Options;
+    $options->setChRoot(__DIR__); // diretório atual
+
+    $dompdf = new Dompdf($options); // dessa vez, na instância, se coloca o $options
+
+O dompdf não carrega links eternos. É preciso habilitar, caso queira usar:
+    $options->setIsRemoteEnabled(true);
+
+Orientação da página: setpaper('a4', 'landscape')
+
+Para download:
+    É preciso apagar a configuração do output:
+    header('Content-type:application/pdf');
+    echo $dompdf->output();
+
+    e aplicar o ->stream('nomeArquivo');
+
+Para salvar no servidor: 
+    apaga o stream() e adiciona:
+    file_put_contents('caminho', $dompdf->output());
